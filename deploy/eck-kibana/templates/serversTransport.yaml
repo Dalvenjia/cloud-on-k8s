@@ -1,5 +1,5 @@
 {{- $fullName := include "kibana.fullname" . }}
-{{- $labels : = include "kibana.labels" . }}
+{{- $labels := include "kibana.labels" . }}
 {{- with .Values.serversTransport }}
 {{- if .enabled }}
 ---
