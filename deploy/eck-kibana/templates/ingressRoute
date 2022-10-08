@@ -1,4 +1,5 @@
-{{- if .Values.ingressRoute.enabled }}
+{{- with .Values.ingressRoute }}
+{{- if .enabled }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -7,5 +8,6 @@ metadata:
   labels:
     {{ include "kibana.labels" . | nindent 4 }}
 spec:
-  {{- toYaml .Values.ingressRoute.spec | nindent 2 }}
+  {{- toYaml .spec | nindent 2 }}
+{{- end }}
 {{- end }}
