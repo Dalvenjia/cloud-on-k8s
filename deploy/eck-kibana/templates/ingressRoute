@@ -1,0 +1,11 @@
+{{- if .Values.ingressRoute.enabled }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "kibana.fullname" . }}
+  labels:
+    {{ include "kibana.labels" . | nindent 4 }}
+spec:
+  {{- toYaml .Values.ingressRoute.spec | nindent 2 }}
+{{- end }}
