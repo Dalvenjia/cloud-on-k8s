@@ -1,12 +1,13 @@
+{{- $fullName := include "kibana.fullname" . }}
 {{- with .Values.serversTransport }}
 {{- if .enabled }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: ServersTransport
 metadata:
-  name: {{ include "kibana.fullname" . }}
+  name: {{ $fullName }}
   labels:
-    {{ include "kibana.labels" . | nindent 4 }}
+    {{ include "$.kibana.labels" . | nindent 4 }}
 spec:
   {{- toYaml .spec | nindent 2 }}
 {{- end }}
