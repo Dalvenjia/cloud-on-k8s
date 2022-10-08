@@ -1,12 +1,14 @@
+{{- $fullName := include "kibana.fullname" . }}
+{{- $labels := include "kibana.labels" . }}
 {{- with .Values.ingressRoute }}
 {{- if .enabled }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: {{ include "kibana.fullname" . }}
+  name: {{ $fullname }}
   labels:
-    {{ include "kibana.labels" . | nindent 4 }}
+    {{ toYaml $labels | nindent 4 }}
 spec:
   {{- toYaml .spec | nindent 2 }}
 {{- end }}
