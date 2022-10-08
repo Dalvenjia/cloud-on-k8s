@@ -7,7 +7,7 @@ kind: ServersTransport
 metadata:
   name: {{ $fullName }}
   labels:
-    {{ include "$.kibana.labels" . | nindent 4 }}
+    {{ include $.kibana.labels . | nindent 4 }}
 spec:
   {{- toYaml .spec | nindent 2 }}
 {{- end }}
