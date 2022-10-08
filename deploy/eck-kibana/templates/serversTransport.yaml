@@ -1,0 +1,11 @@
+{{- if .Values.serversTransport.enabled }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: {{ include "kibana.fullname" . }}
+  labels:
+    {{ include "kibana.labels" . | nindent 4 }}
+spec:
+  {{- toYaml .Values.serversTransport.spec | nindent 2 }}
+{{- end }}
