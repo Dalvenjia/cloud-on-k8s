@@ -16,55 +16,57 @@
 #
 # fullnameOverride: "quickstart"
 
-# Version of Elastic Fleet Server.
-#
-version: 8.2.3
-
-# Labels that will be applied to Elastic Fleet Server.
-#
-labels: {}
-
-# Annotations that will be applied to Elastic Fleet Server.
-#
-annotations: {}
-
-spec:
-  # Referenced resources are below and both elasticsearchRefs and kibanaRef are required for a functional Fleet Server.
-  # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-beat-configuration.html#k8s-beat-connect-es
+agents:
+  name: fleet-server
+  # Version of Elastic Fleet Server.
   #
-  # Reference to ECK-managed Kibana resource.
+  version: 8.2.3
+
+  # Labels that will be applied to Elastic Fleet Server.
   #
-  kibanaRef:
-    name: quickstart
-    # Optional namespace reference to Kibana resource.
-    # If not specified, then the namespace of the Fleet Server resource
-    # will be assumed.
+  labels: {}
+
+  # Annotations that will be applied to Elastic Fleet Server.
+  #
+  annotations: {}
+
+  spec:
+    # Referenced resources are below and both elasticsearchRefs and kibanaRef are required for a functional Fleet Server.
+    # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-beat-configuration.html#k8s-beat-connect-es
     #
-    # namespace: default
-
-  # References to ECK-managed Elasticsearch resource.
-  # This is required for fleet server.
-  #
-  elasticsearchRefs:
-  - name: quickstart
-    # Optional namespace reference to Elasticsearch resource.
-    # If not specified, then the namespace of the Fleet Server resource
-    # will be assumed.
+    # Reference to ECK-managed Kibana resource.
     #
-    # namespace: default
-  
-  # Daemonset, or Deployment specification for the type of Fleet Server specified.
-  # At least one is required of [daemonSet, deployment].
-  # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-beat-configuration.html#k8s-beat-chose-the-deployment-model
-  #
-  deployment:
-    replicas: 1
-    podTemplate:
-      spec:
-        serviceAccountName: fleet-server
-        automountServiceAccountToken: true
-        securityContext:
-          runAsUser: 0
+    kibanaRef:
+      name: quickstart
+      # Optional namespace reference to Kibana resource.
+      # If not specified, then the namespace of the Fleet Server resource
+      # will be assumed.
+      #
+      # namespace: default
+
+    # References to ECK-managed Elasticsearch resource.
+    # This is required for fleet server.
+    #
+    elasticsearchRefs:
+    - name: quickstart
+      # Optional namespace reference to Elasticsearch resource.
+      # If not specified, then the namespace of the Fleet Server resource
+      # will be assumed.
+      #
+      # namespace: default
+    
+    # Daemonset, or Deployment specification for the type of Fleet Server specified.
+    # At least one is required of [daemonSet, deployment].
+    # ref: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-beat-configuration.html#k8s-beat-chose-the-deployment-model
+    #
+    deployment:
+      replicas: 1
+      podTemplate:
+        spec:
+          serviceAccountName: fleet-server
+          automountServiceAccountToken: true
+          securityContext:
+            runAsUser: 0
 
 # ServiceAccount to be used by Elastic Fleet Server. Some Fleet Server features (such as autodiscover or Kubernetes module metricsets)
 # require that Fleet Server Pods interact with Kubernetes APIs. This functionality requires specific permissions

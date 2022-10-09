@@ -1,23 +1,23 @@
+{{- $fullName := include "fleet-server.fullname" . }}
+{{- $fleetLabels := include "fleet-server.labels" . }}
+{{- range $index, $Agent := .Values.agents }}
 ---
 apiVersion: agent.k8s.elastic.co/v1alpha1
 kind: Agent
 metadata:
-  name: {{ include "fleet-server.fullname" . }}
+  name: {{ $Agent.name }}-{{ $fullName }}
   labels:
-    {{- include "fleet-server.labels" . | nindent 4 }}
+    {{- toYaml $fleetLabels | nindent 4 }}
+    {{- if $Agent.labels }}
+    {{- toYaml $Agent.labels | ninednt 4 }}
+    {{- end }}
   annotations:
     eck.k8s.elastic.co/license: basic
-    {{- if .Values.annotations }}
-    {{- toYaml .Values.annotations | nindent 4 }}
+    {{- if $Agent.annotations }}
+    {{- toYaml $Agent.annotations | nindent 4 }}
     {{- end }}
 spec:
-  version: {{ required "A Fleet Server version is required" .Values.version }}
+  version: {{ required "A Fleet Server version is required" $Agent.version }}
   mode: fleet
-  fleetServerEnabled: true
-  {{- if (hasKey .Values.spec "mode") }}
-  {{- fail "spec.mode cannot be changed" }}
-  {{- end }}
-  {{- if (hasKey .Values.spec "fleetServerEnabled") }}
-  {{- fail "spec.fleetServerEnabled cannot be changed" }}
-  {{- end }}
-  {{- toYaml .Values.spec | nindent 2 }}
+  {{- toYaml $Agent.spec | nindent 2 }}
+{{- end }}
